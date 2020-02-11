@@ -1,0 +1,404 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Drawing.Imaging;
+using System.IO;
+
+
+namespace sample
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        Image file;
+        Boolean opened = false;
+        void openImage()
+        {
+            DialogResult dr = openFileDialog1.ShowDialog();
+            if (dr == DialogResult.OK)
+            {
+                file = Image.FromFile(openFileDialog1.FileName);
+                pictureBox1.Image = file;
+                opened = true;
+            }
+        }
+
+
+        void saveImage()
+        {
+            if (opened)
+            {
+                SaveFileDialog sfd = new SaveFileDialog();
+                ImageFormat format = ImageFormat.Png;
+                sfd.Filter = "Images|*.png;*.bmp'*.jpg";
+                if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    string ext = Path.GetExtension(sfd.FileName);
+                    switch (ext)
+                    {
+                        case ".jpg":
+                            format = ImageFormat.Jpeg;
+                            break;
+                        case ".bmp":
+                            format = ImageFormat.Bmp;
+                            break;
+                    }
+                    pictureBox1.Image.Save(sfd.FileName, format);
+                }
+
+
+            }
+            else { MessageBox.Show("No image loaded"); }
+        }
+
+
+
+
+
+        void reload()
+        {
+            if (!opened)
+            {
+                //MessageBox.Show("Hei...select the Image ");
+            }
+            else
+            {
+                if (opened)
+                {
+                    file = Image.FromFile(openFileDialog1.FileName);
+                    pictureBox1.Image = file;
+                    opened = true;
+                }
+            }
+        }
+
+
+
+        void filter1()
+        {
+            if (!opened)
+            {
+                MessageBox.Show("no image is available");
+            }
+            else
+            {
+
+                Image img = pictureBox1.Image;
+                Bitmap bmpInverted = new Bitmap(img.Width, img.Height);
+                ImageAttributes ia = new ImageAttributes();
+                ColorMatrix cmPicture = new ColorMatrix(new float[][]
+		{
+		   new float[]{.393f, .349f+0.5f, .272f, 0, 0},
+		   new float[]{.769f+0.3f, .686f, .534f, 0, 0},
+		   new float[]{.189f, .168f, .131f+0.5f, 0, 0},
+		   new float[]{0,0,0,1,0},
+		   new float[]{0,0,0,0,1}
+                        });
+                ia.SetColorMatrix(cmPicture);
+                Graphics g = Graphics.FromImage(bmpInverted);
+                g.DrawImage(img, new Rectangle(0, 0, img.Width, img.Height), 0, 0,
+img.Width, img.Height, GraphicsUnit.Pixel, ia);
+                g.Dispose();
+                pictureBox1.Image = bmpInverted;
+
+            }
+        }
+
+
+        void filter2()
+        {
+            if (!opened)
+            {
+                MessageBox.Show("no image is available ");
+            }
+            else
+            {
+
+                Image img = pictureBox1.Image;
+                Bitmap bmpInverted = new Bitmap(img.Width, img.Height);
+                ImageAttributes ia = new ImageAttributes();
+                ColorMatrix cmPicture = new ColorMatrix(new float[][]
+		{
+		   new float[]{0.53f, .39f, 0, 0, 0},
+		   new float[]{.769f+0.3f, .986f, .534f, 0, 0},
+		   new float[]{.189f, .168f, 0, 0, 0},
+		   new float[]{0,0,0,1,0},		  
+            new float[]{0,0,0,0,1}
+                        });
+                ia.SetColorMatrix(cmPicture);
+                Graphics g = Graphics.FromImage(bmpInverted);
+                g.DrawImage(img, new Rectangle(0, 0, img.Width, img.Height), 0, 0,
+img.Width, img.Height, GraphicsUnit.Pixel, ia);
+                g.Dispose();
+                pictureBox1.Image = bmpInverted;
+
+            }
+        }
+
+
+
+
+        void filter3()
+        {
+            if (!opened)
+            {
+                MessageBox.Show("no image is available ");
+            }
+            else
+            {
+
+                Image img = pictureBox1.Image;
+                Bitmap bmpInverted = new Bitmap(img.Width, img.Height);
+                ImageAttributes ia = new ImageAttributes();
+                ColorMatrix cmPicture = new ColorMatrix(new float[][]
+		{
+		   new float[]{0.69f, .39f, 0, 0, 0},
+		   new float[]{.999f+0.3f, .684f, .367f, 0, 0},
+		   new float[]{.684f, .629f, 0, 0, 0},
+		   new float[]{0,0,0,1,0},		  
+            new float[]{0,0,0,0,1}
+                        });
+                ia.SetColorMatrix(cmPicture);
+                Graphics g = Graphics.FromImage(bmpInverted);
+                g.DrawImage(img, new Rectangle(0, 0, img.Width, img.Height), 0, 0,
+img.Width, img.Height, GraphicsUnit.Pixel, ia);
+                g.Dispose();
+                pictureBox1.Image = bmpInverted;
+
+            }
+        }
+
+
+
+
+        void filter4()
+        {
+            if (!opened)
+            {
+                MessageBox.Show("no image is available ");
+            }
+            else
+            {
+
+                Image img = pictureBox1.Image;
+                Bitmap bmpInverted = new Bitmap(img.Width, img.Height);
+                ImageAttributes ia = new ImageAttributes();
+                ColorMatrix cmPicture = new ColorMatrix(new float[][]
+		{
+		   new float[]{0.321f, .654f, 0, 0, 0},
+		   new float[]{.961254f+0.9f, .620f, .720f, 0, 0},
+		   new float[]{.325f, .421f, 0, 0, 0},
+		   new float[]{0,0,0,1,0},		  
+            new float[]{0,0,1,1,1}
+                        });
+                ia.SetColorMatrix(cmPicture);
+                Graphics g = Graphics.FromImage(bmpInverted);
+                g.DrawImage(img, new Rectangle(0, 0, img.Width, img.Height), 0, 0,
+img.Width, img.Height, GraphicsUnit.Pixel, ia);
+                g.Dispose();
+                pictureBox1.Image = bmpInverted;
+
+            }
+        }
+
+
+        void filter5()
+        {
+            if (!opened)
+            {
+                MessageBox.Show("no image is available ");
+            }
+            else
+            {
+
+                Image img = pictureBox1.Image;
+                Bitmap bmpInverted = new Bitmap(img.Width, img.Height);
+                ImageAttributes ia = new ImageAttributes();
+                ColorMatrix cmPicture = new ColorMatrix(new float[][]
+		{
+		   new float[]{0.96f, .654f, 0, 0, 0},
+		   new float[]{.769f+0.3f, .686f, .534f, 0, 0},
+		   new float[]{.769f, .354f, 0, 0, 0},
+		   new float[]{0,0,0,1,0},		  
+           new float[]{0,0,0,0,0}
+                        });
+                ia.SetColorMatrix(cmPicture);
+                Graphics g = Graphics.FromImage(bmpInverted);
+                g.DrawImage(img, new Rectangle(0, 0, img.Width, img.Height), 0, 0,
+img.Width, img.Height, GraphicsUnit.Pixel, ia);
+                g.Dispose();
+                pictureBox1.Image = bmpInverted;
+
+            }
+        }
+
+        void filter6()
+        {
+            if (!opened)
+            {
+                MessageBox.Show("no image is available ");
+            }
+            else
+            {
+
+                Image img = pictureBox1.Image;
+                Bitmap bmpInverted = new Bitmap(img.Width, img.Height);
+                ImageAttributes ia = new ImageAttributes();
+                ColorMatrix cmPicture = new ColorMatrix(new float[][]
+		{
+		   new float[]{.393f, .349f+0.5f, .272f, 0, 0},
+		   new float[]{.999f+0.9f, .684f, .367f, 0, 0},
+		   new float[]{.325f, .421f, 0, 0, 0},
+		   new float[]{0,0,0,1,0},		  
+           new float[]{0,0,0,0,0}
+                        });
+                ia.SetColorMatrix(cmPicture);
+                Graphics g = Graphics.FromImage(bmpInverted);
+                g.DrawImage(img, new Rectangle(0, 0, img.Width, img.Height), 0, 0,
+img.Width, img.Height, GraphicsUnit.Pixel, ia);
+                g.Dispose();
+                pictureBox1.Image = bmpInverted;
+
+            }
+        }
+
+
+
+        void filter7()
+        {
+            if (!opened)
+            {
+                MessageBox.Show("no image is available ");
+            }
+            else
+            {
+
+                Image img = pictureBox1.Image;
+                Bitmap bmpInverted = new Bitmap(img.Width, img.Height);
+                ImageAttributes ia = new ImageAttributes();
+                ColorMatrix cmPicture = new ColorMatrix(new float[][]
+		{
+		   new float[]{.358f, .395f+0.361f, .367f, 1, 0},
+		   new float[]{.301f+0.0f, .98f, .65f, 0, 0},
+		   new float[]{.698f, .689f, 63, 0, 0},
+		   new float[]{0,0,0,0,1},		  
+           new float[]{0,0,0,1,0}
+                        });
+                ia.SetColorMatrix(cmPicture);
+                Graphics g = Graphics.FromImage(bmpInverted);
+                g.DrawImage(img, new Rectangle(0, 0, img.Width, img.Height), 0, 0,
+img.Width, img.Height, GraphicsUnit.Pixel, ia);
+                g.Dispose();
+                pictureBox1.Image = bmpInverted;
+
+            }
+        }
+
+
+
+        void filter8()
+        {
+            if (!opened)
+            {
+                MessageBox.Show("no image is available ");
+            }
+            else
+            {
+
+                Image img = pictureBox1.Image;
+                Bitmap bmpInverted = new Bitmap(img.Width, img.Height);
+                ImageAttributes ia = new ImageAttributes();
+                ColorMatrix cmPicture = new ColorMatrix(new float[][]
+		{
+		   new float[]{0.321f, .654f, 1, 1, 1},
+		   new float[]{.295f+0.9f, .620f, .720f, 1, 1},
+		   new float[]{.3987f, .41f, 0, 0, 0},
+		   new float[]{0,0,0,1,0},		  
+            new float[]{0,0,1,1,1}
+                        });
+                ia.SetColorMatrix(cmPicture);
+                Graphics g = Graphics.FromImage(bmpInverted);
+                g.DrawImage(img, new Rectangle(0, 0, img.Width, img.Height), 0, 0,
+img.Width, img.Height, GraphicsUnit.Pixel, ia);
+                g.Dispose();
+                pictureBox1.Image = bmpInverted;
+
+            }
+        }
+
+
+
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            openImage();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            saveImage();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            reload();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            reload();
+            filter1();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            reload();
+            filter2();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            reload(); filter3();
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            reload(); filter4();
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            reload(); filter5();
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            reload(); filter6();
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            reload(); filter7();
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            reload(); filter8();
+        }
+    }
+}
